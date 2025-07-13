@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TEST OBA TOOLS</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 400px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #4285f4;
+        }
+        .accordion {
+            background-color: #4285f4;
+            color: white;
+            cursor: pointer;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .accordion:hover {
+            background-color: #3367d6;
+        }
+        .panel {
+            padding: 0 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: white;
+        }
+        .panel-content {
+            padding: 10px 0;
+        }
+        #result, #iban-result, #cf-result {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            word-break: break-all;
+        }
+        button.action {
+            width: 100%;
+            padding: 8px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        button.action:hover {
+            background-color: #3367d6;
+        }
+        .accordion:after {
+            content: '\002B';
+            color: white;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        .active:after {
+            content: "\2212";
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .bank-info {
+            margin-top: 5px;
+            font-style: italic;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        /* Stili per Codice Fiscale */
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .form-column {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        button.cf-action {
+            background-color: #4285f4;
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+        }
+        button.cf-action:hover {
+            background-color: #3367d6;
+        }
+        button#generaCasuale {
+            background-color: #34a853;
+        }
+        button#generaCasuale:hover {
+            background-color: #2e8b45;
+        }
+        #cf-codiceFiscale {
+            font-size: 20px;
+            letter-spacing: 2px;
+            margin: 10px 0;
+        }
+        .random-info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #cf-copy {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">TEST OBA NEXI tools</div>
+    
+    <!-- Generatore P.IVA -->
+    <button class="accordion">Generatore P.IVA</button>
+    <div class="panel">
+        <div class="panel-content">
+            <button id="generate" class="action">Genera P.IVA</button>
+            <div id="result">-</div>
+            <button id="copy" class="action">Copia negli appunti</button>
+        </div>
+    </div>
+    
+    <!-- Codice IBAN -->
+    <button class="accordion">Codice IBAN</button>
+    <div class="panel">
+        <div class="panel-content">
+            <div class="form-group">
+                <label for="bank-select">Seleziona Banca:</label>
+                <select id="bank-select">
+                    <option value="">-- Seleziona una banca --</option>
+                    <option value="08425|02804">CAMBIANO (ABI: 08425, CAB: 02804)</option>
+                    <option value="06175|01020">CARIGE (ABI: 06175, CAB: 01020)</option>
+                    <option value="03084|01600">PONTI (ABI: 03084, CAB: 01600)</option>
+                    <option value="06915|13700">LUCCA (ABI: 06915, CAB: 13700)</option>
+                    <option value="03138|12300">REALE (ABI: 03138, CAB: 12300)</option>
+                    <option value="05696|01623">SONDRIO (ABI: 05696, CAB: 01623)</option>
+                    <option value="08133|58170">MERANO (ABI: 08133, CAB: 58170)</option>
+                    <option value="03104|03200">Deutsche BANK (ABI: 03104, CAB: 03200)</option>
+                    <option value="01030|12150">MPS (ABI: 01030, CAB: 12150)</option>
+                    <option value="03441|21902">Tuscia (ABI: 03441, CAB: 21902)</option>
+                    <option value="08562|13700">Pisa & Fornacette (ABI: 08562, CAB: 13700)</option>
+                    <option value="05484|12000">CIVIDALE (ABI: 05484, CAB: 12000)</option>
+                    <option value="05387|14000">BPER (ABI: 05387, CAB: 14000)</option>
+                    <option value="01015|04815">Banco Sardegna (ABI: 01015, CAB: 04815)</option>
+                    <option value="05772|04613">Banca Sant'Angelo (ABI: 05772, CAB: 04613)</option>
+                    <option value="06150|03200">CARIFERMO (ABI: 06150, CAB: 03200)</option>
+                    <option value="03015|03200">FINECO (ABI: 03015, CAB: 03200)</option>
+                    <option value="03589|01600">ALLIANZ (ABI: 03589, CAB: 01600)</option>
+                    <option value="03062|34210">MEDIOLANUM (ABI: 03062, CAB: 34210)</option>
+                    <option value="05424|04004">BARI (ABI: 05424, CAB: 04004)</option>
+                    <option value="03365|12100">CHERRYBANK (ABI: 03365, CAB: 12100)</option>
+                </select>
+            </div>
+            
+            <!-- Nuovi campi per ABI e CAB manuale in un'unica riga -->
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="manual-abi">Inserisci ABI (manuale):</label>
+                    <input type="text" id="manual-abi" placeholder="5 cifre" maxlength="5">
+                </div>
+                <div class="form-column">
+                    <label for="manual-cab">Inserisci CAB (manuale):</label>
+                    <input type="text" id="manual-cab" placeholder="5 cifre" maxlength="5">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="account-number">Numero Conto (max 12 cifre):</label>
+                <input type="text" id="account-number" placeholder="Inserisci il numero di conto" maxlength="12">
+            </div>
+            
+            <button id="generate-iban" class="action">Genera IBAN</button>
+            <div id="iban-result">-</div>
+            <div class="bank-info" id="bank-info"></div>
+            <button id="copy-iban" class="action">Copia negli appunti</button>
+        </div>
+    </div>
+    
+    <!-- Codice Fiscale -->
+    <button class="accordion">Codice Fiscale</button>
+    <div class="panel">
+        <div class="panel-content">
+            <div class="form-group">
+                <label for="cognome">Cognome:</label>
+                <input type="text" id="cognome">
+            </div>
+            
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="dataNascita">Data di nascita:</label>
+                    <input type="date" id="dataNascita">
+                </div>
+                
+                <div class="form-column">
+                    <label for="sesso">Sesso:</label>
+                    <select id="sesso">
+                        <option value="M">Maschio</option>
+                        <option value="F">Femmina</option>
+                    </select>
+                </div>
+                
+                <div class="form-column">
+                    <label for="codiceCatastale">Codice catastale:</label>
+                    <input type="text" id="codiceCatastale" maxlength="4" placeholder="es. H501 per Roma">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button id="calcola" class="cf-action">Calcola Codice Fiscale</button>
+                <button id="generaCasuale" class="cf-action">Genera Codice Casuale</button>
+            </div>
+            
+            <div id="cf-result">
+                <div id="cf-codiceFiscale">-</div>
+                <div id="cf-randomInfo" class="random-info"></div>
+                <button id="cf-copy" class="action">Copia negli appunti</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
